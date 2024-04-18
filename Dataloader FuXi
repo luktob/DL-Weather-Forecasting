@@ -1,0 +1,124 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "toc_visible": true,
+      "gpuType": "T4",
+      "authorship_tag": "ABX9TyNwtRdOdbi0RigXq3RELXxU",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/luktob/DL-Weather-Forecasting/blob/main/Dataloader%20FuXi\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#!unzip WeatherLearn-master.zip\n",
+        "#!pip install timm"
+      ],
+      "metadata": {
+        "id": "4JvWmiRFVCjy"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "VJ4SnY4LWoiW"
+      },
+      "outputs": [],
+      "source": [
+        "from WeatherLearn.weatherlearn.models import Fuxi\n",
+        "import torch"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "torch.cuda.is_available()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "cAtIV_DyV8HM",
+        "outputId": "7d821263-7f90-4b50-f0ca-373faeebaee0"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "True"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 3
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "device = 'cuda' if torch.cuda.is_available() else 'cpu'\n",
+        "in_chans = out_chans = 1\n",
+        "embed_dim = 1\n",
+        "input = torch.randn(1, in_chans, 2, 721, 1440).to(device)\n",
+        "fuxi = Fuxi(in_chans=in_chans, out_chans=out_chans, embed_dim=embed_dim,\n",
+        "            num_groups=1, num_heads=1).to(device)\n",
+        "# patch_size : Default: (2, 4, 4)\n",
+        "# embed_dim : Default: 1536\n",
+        "# num_groups : Default: 32\n",
+        "# num_heads : Default: 8\n",
+        "# window_size : Default: 7"
+      ],
+      "metadata": {
+        "id": "CXNqTF8_WthM"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "output = fuxi(input)  # B C Lat Lon"
+      ],
+      "metadata": {
+        "id": "_vSW3w1oeX8J"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "QfKj1L0dTaAj"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
